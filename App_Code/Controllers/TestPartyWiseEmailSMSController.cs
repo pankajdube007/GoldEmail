@@ -1,0 +1,106 @@
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Net;
+using System.Net.Http;
+using System.Net.Mail;
+using System.Text;
+using System.Web.Configuration;
+using System.Web.Http;
+
+public class TestPartyWiseEmailSMSController : ApiController
+{
+    [HttpPost]
+    [ValidateModel]
+    [Route("api/TestPartyWiseInd")]
+    public HttpResponseMessage GetTestMail(PartyWiseInd mails)
+    {
+        Common cm = new Common();
+        MessageService ms = new MessageService();
+        WebClient web = new WebClient();
+
+        try
+        {
+            string data1;
+            string Subject;
+            string Body = string.Empty;
+            byte[] bufData = null;
+
+            EmailTemplateDA da = new EmailTemplateDA();
+            PrivateMessage pm = new PrivateMessage();
+
+            List<PartyWiseInd> testmail = new List<PartyWiseInd>();
+            List<PartyWiseIndDetails> Listtestmail = new List<PartyWiseIndDetails>();
+            if (mails.For == "Email")
+            {
+                Subject = mails.Subject;
+                Body = mails.Body;
+
+                List<string> ls = new List<string>();
+                EmailAccount ea = new EmailAccount();
+
+                DataTable dt1 = ms.GetEmailAccountForTestMail();
+
+                if (dt1.Rows.Count > 0)
+                {
+                    ea.EmailAccountId = Convert.ToInt32(dt1.Rows[0]["EmailAccountId"]);
+                    ea.Email = Convert.ToString(dt1.Rows[0]["Email"]);
+                    ea.DisplayName = Convert.ToString(dt1.Rows[0]["DisplayName"]);
+                    ea.Host = Convert.ToString(dt1.Rows[0]["Host"]);
+                    ea.Port = Convert.ToInt32(dt1.Rows[0]["Port"]);
+                    ea.Username = Convert.ToString(dt1.Rows[0]["Username"]);
+                    ea.Password = Convert.ToString(dt1.Rows[0]["Password"]);
+                    ea.EnableSSL = Convert.ToBoolean(dt1.Rows[0]["EnableSSL"]);
+                    ea.UseDefaultCredentials = Convert.ToBoolean(dt1.Rows[0]["UseDefaultCredentials"]);
+                    ea.Attchment = "";
+                }
+
+                ms.SendEmail(Subject, Body,
+                       new MailAddress(ea.Email, ea.DisplayName),
+                       new MailAddress(mails.To, mails.ToName), ls, ls, ea);
+            }
+            else if (mails.For == "SMS")
+            {
+                Body = mails.Body;
+
+                bufData = web.DownloadData("http://sms6.routesms.com:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + mails.To + "&source=GLDMDL&message=" + Body);
+            }
+
+            Listtestmail.Add(new PartyWiseIndDetails
+            {
+                result = "True",
+                message = "Test Mail Send",
+                servertime = DateTime.Now.ToString(),
+                // data = testmail,
+            });
+
+            data1 = JsonConvert.SerializeObject(Listtestmail, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+
+            response.Content = new StringContent(data1, Encoding.Unicode);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(cm.StatusTime(false, "Oops! Something is wrong, try again later!!!!!!!!" + ex.ToString()), Encoding.Unicode);
+
+            return response;
+        }
+    }
+
+    public string ProperAttachmentUrl(string Attachment, int MailId, int UserId)
+
+    {
+        string AttachmentUrl = string.Empty;
+        foreach (string str1 in Attachment.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            //  AttachmentUrl = AttachmentUrl + "Upload\\ErpAttachment\\" + MailId + "\\" + UserId + "\\" + str1 + ",";
+
+            AttachmentUrl = AttachmentUrl + MailId + "\\" + UserId + "\\" + str1 + ",";
+        }
+        return AttachmentUrl;
+    }
+}

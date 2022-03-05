@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/Presentation/Dashboard/DashBoard.aspx#" title="Default" description="Dashboard" sideNavBarSiteMapDataSource="true">
+      <siteMapNode url="" title="Dashboard" description="Page for users" roles="*">
+        <siteMapNode url="~/Presentation/Dashboard/DashBoard.aspx" title="Dashboard" roles="*" />
+        <siteMapNode url="~/Presentation/Dashboard/Summery.aspx" title="Summery" roles="Admin,InternalUser,Accounts" />
+      </siteMapNode>
+      <siteMapNode url="" title="Master" description="Page for admins" roles="*">
+        
+        <siteMapNode url="" title="Inventory Management" description="Page for admins" roles="Admin">
+          <siteMapNode url="~/Presentation/Master/Inventorymanagement/MasterDivisionMaster/Master-Division-Master.aspx" title="Master Division" roles="Admin" />
+          <siteMapNode url="~/Presentation/Master/Division.aspx" title="Division" roles="Admin" />
+          <siteMapNode url="~/Presentation/Master/Semi-Finished-Master.aspx" title="Semi Finished Master" roles="Admin" />
+        </siteMapNode>
+        <siteMapNode url="~/admin/AdminPage3?id=2.aspx" title="Admin 2" roles="Admin" />
+      </siteMapNode>
+      <siteMapNode url="" title="Accounts" description="Page for users" roles="*">
+        <siteMapNode url="~/user/UserPage2?id=3.aspx" title="User 1" roles="Admin,Accounts" />
+        <siteMapNode url="~/user/UserPage3?id=3.aspx" title="User 2" roles="Admin,Accounts" />
+      </siteMapNode>
+      <siteMapNode url="" title="Transaction" description="Page for users" roles="*">
+        <siteMapNode url="~/user/UserPage2?id=4.aspx" title="User 1" roles="Admin,InternalUser,Accounts,Vendor,Dealer,Distributor" />
+        <siteMapNode url="~/user/UserPage3?id=4.aspx" title="User 2" roles="Admin,InternalUser,Accounts,Vendor,Dealer,Distributor" />
+      </siteMapNode>
+      <siteMapNode url="" title="Reports" description="Page for users" roles="*">
+        <siteMapNode url="~/user/UserPage2?id=5.aspx" title="User 1" roles="Admin,InternalUser,Accounts,Vendor,Dealer,Distributor" />
+        <siteMapNode url="~/user/UserPage3?id=5.aspx" title="User 2" roles="Admin,InternalUser,Accounts,Vendor,Dealer,Distributor" />
+      </siteMapNode>
+      <siteMapNode url="" title="Info" description="Page for users" roles="*">
+        <siteMapNode url="~/Presentation/Contact.aspx" title="Contact" roles="*">
+        </siteMapNode>
+        <siteMapNode url="~/Presentation/About.aspx" title="About" roles="*">
+        </siteMapNode>
+      </siteMapNode>
+    </siteMapNode>
+</siteMap>
