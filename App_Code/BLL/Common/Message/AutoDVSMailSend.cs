@@ -38,11 +38,11 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
             //  DateTime time1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 0, 0);
             //  DateTime time2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
           //  if (DateTime.Now.Hour >= 7)
-               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 24 && DateTime.Now.Month >= 6 && DateTime.Now.Year >= 2021)
+               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 20 && DateTime.Now.Month >= 4 && DateTime.Now.Year >= 2022)
                 {
-                //DataTable dt = da.GetspfireDetails("GetCustomerTDSTCSApplicabilityTask");
-                //if (dt.Rows.Count == 0)
-                //{
+                DataTable dt = da.GetspfireDetails("GetCustomerTDSTCSApplicabilityTask");
+                if (dt.Rows.Count == 0)
+                {
 
                     //  if (DateTime.Compare(DateTime.Now, time1) > 0)
 
@@ -54,30 +54,33 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
 
                         for (int i = 0; i < dt1.Rows.Count; i++)
                             {
-                            //    if (_messageService.ValidateEmailId(dt1.Rows[i]["EmailID"].ToString()))
-                            //    {
-                            //        //  sendmail(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["EmailID"].ToString());
-                            //        sendmailEx(dt1.Rows[i]["EmailID"].ToString());
-                            //    }
-
-                            //if (_messageService.ValidateEmailId(dt1.Rows[i]["EmailID"].ToString()) && !string.IsNullOrEmpty(dt1.Rows[i]["UniqueKey"].ToString()))
-                            //{
-                            //    sendmail(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["EmailID"].ToString());
-
-                            //}
+                        //    if (_messageService.ValidateEmailId(dt1.Rows[i]["EmailID"].ToString()))
+                        //    {
+                        //        //  sendmail(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["EmailID"].ToString());
+                        //        sendmailEx(dt1.Rows[i]["EmailID"].ToString());
+                        //    }
 
 
-                            if (_messageService.ValidateMobileNo(dt1.Rows[i]["mobile"].ToString()) && !string.IsNullOrEmpty(dt1.Rows[i]["UniqueKey"].ToString()))
-                            {
-                                sendsms(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["mobile"].ToString());
-                            }
+                        if (_messageService.ValidateEmailId(dt1.Rows[i]["EmailID"].ToString()) && !string.IsNullOrEmpty(dt1.Rows[i]["UniqueKey"].ToString()))
+                        {
+                            sendmail(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["EmailID"].ToString());
+
                         }
 
-                     //   da.CreateSPFireDetails("GetCustomerTDSTCSApplicabilityTask");
+
+                        // For SMS
+
+                        //if (_messageService.ValidateMobileNo(dt1.Rows[i]["mobile"].ToString()) && !string.IsNullOrEmpty(dt1.Rows[i]["UniqueKey"].ToString()))
+                        //{
+                        //    sendsms(dt1.Rows[i]["UniqueKey"].ToString(), dt1.Rows[i]["CustomerType"].ToString(), dt1.Rows[i]["CustType"].ToString(), dt1.Rows[i]["mobile"].ToString());
+                        //}
+                    }
+
+                        da.CreateSPFireDetails("GetCustomerTDSTCSApplicabilityTask");
                     }
 
 
-               // }
+                }
             }
 
         }
@@ -88,37 +91,47 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
           //  email = dtshow.Rows[0]["email"].ToString();
             string Link = "https://erp.goldmedalindia.in/TDSTCSapplicability.aspx?UniqueKey=" + CustomerType + UniqueKey + "";
             string Subject = "New TDS Provisions for "+ CustType;
-            string MailBody = @"<table style='font-family: Arial' cellpadding='5' cellspacing='0'><tr><td><div style='padding-top: 10px; padding-bottom: 10px;'><span>Dear Business Partner,</span>
-                </div></td></tr><tr><td>
-                <div style='padding-top: 10px;'>
-                    As you are aware, Finance Act 2020 had introduced <b>Section 206C(1H) w.e.f 01.10.2020</b>  -
-                    Requirement to collect TCS on sale of goods at 0.1% on sales consideration exceeding Rs.50 Lakhs in a financial year. Further to this Finance Act 2021 had introduced following two new sections.                </div></td></tr><tr><td>
-                <div style='padding-top: 10px;'>
-                    Finance Act 2021 has introduced a new <b>Section 194Q</b> with effect from 01.07.2021, where Buyer is required to deduct TDS on purchase of
-                    goods at the rate of 0.1% on the aggregate value exceeding Rs. 50 lakhs in a financial year, if Buyer has turnover above Rs. 10 Crore
-                    during the preceding financial year i.e.2020-21.
-                    <b>IF SECTION 194Q IS APPLICABLE THAN SECTION 206C(1H) WILL NOT BE APPLICABLE.</b>.               
-                </div></td></tr><tr><td>
-                <div style='padding-top: 10px;'>
-                    Finance Act 2021 has also introduced <b>Section 206CCA which requires</b> the seller to collect higher rate of TCS 
-                   (Higher the twice of applicable rate or 5%) in case buyer has not filed Income tax returns for preceding two previous years. 
-                    However this provision is not applicable if the aggregate of Tax deducted , collected at source is less than Rs.50,000 in 
-                    each of the two previous years.
-                </div></td></tr><tr><td>
-                <div class='pdb10'><p>1.<b>If dealers/customers turnover for FY 2020-21 is greater than 10 Crores,</b>
-Kindly deduct TDS at the applicable rate of  0.1% on the aggregate value of purchase exceeding Rs.50 Lakhs in the current financial year.
-
-Goldmedal Electricals Pvt. Ltd. has duly filed Income tax returns for FY 2018-19 and FY 2019-20 and hence<b></b>TDS to be deducted at normal rates and not higher rates. </p>
-                <div>2. <b>If dealers/customers turnover for FY 2020-21 is less than or equal to 10 Crores,</b> Goldmedal will collect TCS at the applicable rate of 0.1.%  as practice followed currently.</div>
-                </div>               
-                <div>We request you to kindly fill the attached turnover declaration form <b>(Link Provided)</b> at the earliest by 27.06.2021.</div>
-                 <div>'" + Link + @"'</div>
-                </div>
-                </td></tr>
-                <tr><td><div>
-                <div>In case of any clarification / or any correspondence (if required), please reach out to us at the following coordinate</div>
-                <div>Aruna Gupta –<a href='mailto:aruna.gupta@goldmedalindia.com'>aruna.gupta@goldmedalindia.com</a> ( 022-42023000 Extn:3071 )</div></div>
-                </td></tr></table>";
+            string MailBody = @"<table style='font-weight: 400;'>
+<tbody>
+<tr>
+<td>
+<p>Dear Business Partner,</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>As you are aware, Finance Act 2020 had introduced&nbsp;<strong>Section 206C(1H) w.e.f 01.10.2020</strong>&nbsp;- Requirement to collect TCS on sale of goods at 0.1% on sales consideration exceeding Rs.50 Lakhs in a financial year. Further to this Finance Act 2021 had introduced following two new sections.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Finance Act 2021 has introduced a new&nbsp;<strong>Section 194Q</strong>&nbsp;with effect from 01.07.2021, where Buyer is required to deduct TDS on purchase of goods at the rate of 0.1% on the aggregate value exceeding Rs. 50 lakhs in a financial year, if Buyer has turnover above Rs. 10 Crore during the preceding financial year i.e.2021-22.&nbsp;<strong>IF SECTION 194Q IS APPLICABLE THAN SECTION 206C(1H) WILL NOT BE APPLICABLE.</strong>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Finance Act 2021 has also introduced&nbsp;<strong>Section 206CCA which requires</strong>&nbsp;the seller to collect higher rate of TCS (Higher the twice of applicable rate or 5%) in case buyer has not filed Income tax returns for preceding two previous years. However this provision is not applicable if the aggregate of Tax deducted , collected at source is less than Rs.50,000 in each of the two previous years.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>1.<strong>If dealers/customers turnover for FY 2021-22 is greater than 10 Crores,</strong>&nbsp;Kindly deduct TDS at the applicable rate of 0.1% on the aggregate value of purchase exceeding Rs.50 Lakhs in the current financial year. Goldmedal Electricals Pvt. Ltd. has duly filed Income tax returns for FY 2019-20 and FY 2020-21 and henceTDS to be deducted at normal rates and not higher rates.</p>
+<p>2.&nbsp;<strong>If dealers/customers turnover for FY 2021-22 is less than or equal to 10 Crores,</strong>&nbsp;Goldmedal will collect TCS at the applicable rate of 0.1.% as practice followed currently.</p>
+<p>We request you to kindly fill the attached turnover declaration form&nbsp;<strong>(Link Provided)</strong>&nbsp;at the earliest by 25.04.2022.</p>
+<p>'<a href='"+Link+ @"'>" + Link + @"</a>'</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>In case of any clarification / or any correspondence (if required), please reach out to us at the following coordinate</p>
+<p>Aruna Gupta &ndash;<a href='mailto:aruna.gupta@goldmedalindia.com'>aruna.gupta@goldmedalindia.com</a>&nbsp;( 022-42023000 Extn:3071 )</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Thanks &amp; Regards,</p>
+<p>Aruna Gupta</p>
+<p>✆ 022-42023000 Extn:3071</p>";
 
             da.AddEmailQueue(0, EmailID, "DVS","", "", Subject, MailBody, DateTime.Now.ToString(), "9999-12-01", 1, 1, 2017, "", "DVS Mail", 1);
         }
