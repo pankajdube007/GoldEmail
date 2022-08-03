@@ -39,50 +39,50 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
             //  DateTime time2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
             if (DateTime.Now.Hour >= 19)
             {
-                DataTable dt = da.GetspfireDetails("TodayInvoiceReport");
+                DataTable dt = da.GetspfireDetails("SendPayoutSMSToAllUser");
                 if (dt.Rows.Count == 0)
                 {
 
                     //  if (DateTime.Compare(DateTime.Now, time1) > 0)
 
-                    DataTable dt1 = _messageService.return_dt("TodayInvoiceReport");
+                    DataTable dt1 = _messageService.return_dt("SendPayoutSMSToAllUser");
 
                     if (dt1.Rows.Count > 0)
                     {
-                        string sms = "Today Sale:" + String.Format("{0:N}", dt1.Rows[0]["TodayInvoice"]) + ", Current Month Sale:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyInvoice"]) + ", Current Quarter Sale:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyInvoice"]) +
-                        ", Today Payment:" + String.Format("{0:N}", dt1.Rows[0]["TodayPayment"]) + ", Current Month Payment:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyPayment"]) + ", Current Quarter Payment:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyPayment"]);
+                        //string sms = "Today Sale:" + String.Format("{0:N}", dt1.Rows[0]["TodayInvoice"]) + ", Current Month Sale:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyInvoice"]) + ", Current Quarter Sale:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyInvoice"]) +
+                        //", Today Payment:" + String.Format("{0:N}", dt1.Rows[0]["TodayPayment"]) + ", Current Month Payment:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyPayment"]) + ", Current Quarter Payment:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyPayment"]);
+                        var sms = "Dear " + dt1.Rows[0]["UserName"] + ",\nYour Dhanbarse wallet balance is Rs. " + dt1.Rows[0]["WalletAmount"] + "/-.\nWe have introduced multiple payment options for your convenience i.e UPI and IMPS transfer, through which you can directly transfer money to your bank account.\nThanks & Regards,\nTeam Goldmedal.";
 
+                        //  bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "8981804211,9820012363,9820745251,9820224662,9820187966,9518957760" + "&source=GLDMDL&message=" + sms);
+                          bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + dt1.Rows[0]["MobileNo"] + "&source=GLDMDL&message=" + sms);
 
-                          bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "8981804211,9820012363,9820745251,9820224662,9820187966,9518957760" + "&source=GLDMDL&message=" + sms);
-                        //  bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "9518957760" + "&source=GLDMDL&message=" + sms);
-
-                        da.CreateSPFireDetails("TodayInvoiceReport");
+                        da.CreateSPFireDetails("SendPayoutSMSToAllUser");
                     }
                 }
             }
 
-            if (DateTime.Now.Hour >= 22)
-            {
-                DataTable dt = da.GetspfireDetails("TodayInvoiceReport");
-                if (dt.Rows.Count < 2)
-                {
-                    // if (DateTime.Compare(DateTime.Now, time2) > 0)
+            //if (DateTime.Now.Hour >= 22)
+            //{
+            //    DataTable dt = da.GetspfireDetails("TodayInvoiceReport");
+            //    if (dt.Rows.Count < 2)
+            //    {
+            //        // if (DateTime.Compare(DateTime.Now, time2) > 0)
 
-                    DataTable dt1 = _messageService.return_dt("TodayInvoiceReport");
+            //        DataTable dt1 = _messageService.return_dt("TodayInvoiceReport");
 
-                    if (dt1.Rows.Count > 0)
-                    {
-                        string sms = "Today Sale:" + String.Format("{0:N}", dt1.Rows[0]["TodayInvoice"]) + ", Current Month Sale:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyInvoice"]) + ", Current Quarter Sale:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyInvoice"]) +
-                        ", Today Payment:" + String.Format("{0:N}", dt1.Rows[0]["TodayPayment"]) + ", Current Month Payment:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyPayment"]) + ", Current Quarter Payment:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyPayment"]);
+            //        if (dt1.Rows.Count > 0)
+            //        {
+            //            string sms = "Today Sale:" + String.Format("{0:N}", dt1.Rows[0]["TodayInvoice"]) + ", Current Month Sale:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyInvoice"]) + ", Current Quarter Sale:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyInvoice"]) +
+            //            ", Today Payment:" + String.Format("{0:N}", dt1.Rows[0]["TodayPayment"]) + ", Current Month Payment:" + String.Format("{0:N}", dt1.Rows[0]["MonthlyPayment"]) + ", Current Quarter Payment:" + String.Format("{0:N}", dt1.Rows[0]["QuarterlyPayment"]);
 
-                          bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "8981804211,9820012363,9820745251,9820224662,9820187966,9518957760" + "&source=GLDMDL&message=" + sms);
-                        // bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "9518957760" + "&source=GLDMDL&message=" + sms);
+            //              bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "8981804211,9820012363,9820745251,9820224662,9820187966,9518957760" + "&source=GLDMDL&message=" + sms);
+            //            // bufData = web.DownloadData("http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=" + WebConfigurationManager.AppSettings["SmsUser"].ToString() + "&password=" + WebConfigurationManager.AppSettings["SmsPassword"].ToString() + "&type=0&dlr=0&destination=" + "9518957760" + "&source=GLDMDL&message=" + sms);
 
-                        da.CreateSPFireDetails("TodayInvoiceReport");
-                    }
+            //            da.CreateSPFireDetails("TodayInvoiceReport");
+            //        }
 
-                }
-            }
+            //    }
+            //}
         }
     }
 }
