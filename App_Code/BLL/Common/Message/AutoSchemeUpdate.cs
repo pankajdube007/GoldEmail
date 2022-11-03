@@ -64,7 +64,7 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
                 {
                     byte[] report = generatePDF(Convert.ToString(dt.Rows[i]["cin"]));
                     Stream stream = new MemoryStream(report);
-                    FileName = string.Format(@"{0}", dt.Rows[i]["cin"].ToString() + "june2022");
+                    FileName = string.Format(@"{0}", dt.Rows[i]["cin"].ToString() + "sep2022");
                     //  string uniquefoldernm = dtparty.Rows[0]["cin"].ToString() + "CreditNote";
 
                     var retStr = _goldMedia.GoldMediaUpload(FileName, "creditnote", ".pdf", stream, "application/pdf", false, false, true);
