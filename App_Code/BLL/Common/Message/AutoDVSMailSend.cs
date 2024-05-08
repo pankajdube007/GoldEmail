@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Configuration;
 using System.Xml;
@@ -38,7 +39,7 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
             //  DateTime time1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 0, 0);
             //  DateTime time2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
           //  if (DateTime.Now.Hour >= 7)
-               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 20 && DateTime.Now.Month >= 4 && DateTime.Now.Year >= 2022)
+               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 10 && DateTime.Now.Month >= 4 && DateTime.Now.Year >= 2022)
                 {
                 DataTable dt = da.GetspfireDetails("GetCustomerTDSTCSApplicabilityTask");
                 if (dt.Rows.Count == 0)
@@ -89,7 +90,7 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
         {
            // UniqueKey = dtshow.Rows[0]["UniqueKey"].ToString();
           //  email = dtshow.Rows[0]["email"].ToString();
-            string Link = "https://erp.goldmedalindia.in/TDSTCSapplicability.aspx?UniqueKey=" + CustomerType + UniqueKey + "";
+            string Link = "https://erp.goldmedalindia.in/TDSTCSapplicability.aspx?UniqueKey=" + CustomerType + UniqueKey + "&financialYear=2023-2024";
             string Subject = "New TDS Provisions for "+ CustType;
             string MailBody = @"<table style='font-weight: 400;'>
 <tbody>
@@ -115,9 +116,9 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
 </tr>
 <tr>
 <td>
-<p>1.<strong>If dealers/customers turnover for FY 2021-22 is greater than 10 Crores,</strong>&nbsp;Kindly deduct TDS at the applicable rate of 0.1% on the aggregate value of purchase exceeding Rs.50 Lakhs in the current financial year. Goldmedal Electricals Pvt. Ltd. has duly filed Income tax returns for FY 2019-20 and FY 2020-21 and henceTDS to be deducted at normal rates and not higher rates.</p>
-<p>2.&nbsp;<strong>If dealers/customers turnover for FY 2021-22 is less than or equal to 10 Crores,</strong>&nbsp;Goldmedal will collect TCS at the applicable rate of 0.1.% as practice followed currently.</p>
-<p>We request you to kindly fill the attached turnover declaration form&nbsp;<strong>(Link Provided)</strong>&nbsp;at the earliest by 25.04.2022.</p>
+<p>1.<strong>If dealers/customers turnover for FY 2022-23 is greater than 10 Crores,</strong>&nbsp;Kindly deduct TDS at the applicable rate of 0.1% on the aggregate value of purchase exceeding Rs.50 Lakhs in the current financial year. Goldmedal Electricals Pvt. Ltd. has duly filed Income tax returns for FY 2019-20 and FY 2020-21 and henceTDS to be deducted at normal rates and not higher rates.</p>
+<p>2.&nbsp;<strong>If dealers/customers turnover for FY 2022-23 is less than or equal to 10 Crores,</strong>&nbsp;Goldmedal will collect TCS at the applicable rate of 0.1.% as practice followed currently.</p>
+<p>We request you to kindly fill the attached turnover declaration form&nbsp;<strong>(Link Provided)</strong>&nbsp;at the earliest by 25.04.2023.</p>
 <p>'<a href='"+Link+ @"'>" + Link + @"</a>'</p>
 </td>
 </tr>
@@ -133,7 +134,28 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
 <p>Aruna Gupta</p>
 <p>✆ 022-42023000 Extn:3071</p>";
 
-            da.AddEmailQueue(0, EmailID, "DVS","", "", Subject, MailBody, DateTime.Now.ToString(), "9999-12-01", 1, 1, 2017, "", "DVS Mail", 1);
+            //   da.AddEmailQueue(1, EmailID, "DVS","", "", Subject, MailBody, DateTime.Now.ToString(), "9999-12-01", 1, 1, 2017, "", "DVS Mail", 1);
+            SendEmail(EmailID, Subject, MailBody);
+        }
+
+        public void SendEmail(string to, string subject, string body)
+        {
+            string from = "noreply.goldmedal@goldmedalindia.com"; // Replace with your email address
+            string password = "Goldmedal20229"; // Replace with your email password
+            string smtpServer = "smtp.gmail.com"; // Replace with your SMTP server address
+            int smtpPort = 587; // Replace with your SMTP server port number
+
+            using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
+            {
+                smtpClient.Credentials = new NetworkCredential(from, password);
+                smtpClient.EnableSsl = true;
+
+                using (MailMessage mailMessage = new MailMessage(from, to, subject, body))
+                {
+                    mailMessage.IsBodyHtml = true;
+                    smtpClient.Send(mailMessage);
+                }
+            }
         }
 
 

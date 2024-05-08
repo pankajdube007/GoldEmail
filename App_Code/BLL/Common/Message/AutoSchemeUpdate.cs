@@ -64,10 +64,10 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
                 {
                     byte[] report = generatePDF(Convert.ToString(dt.Rows[i]["cin"]));
                     Stream stream = new MemoryStream(report);
-                    FileName = string.Format(@"{0}", dt.Rows[i]["cin"].ToString() + "sep2022");
+                    FileName = string.Format(@"{0}", dt.Rows[i]["cin"].ToString() + "june2023");
                     //  string uniquefoldernm = dtparty.Rows[0]["cin"].ToString() + "CreditNote";
 
-                    var retStr = _goldMedia.GoldMediaUpload(FileName, "creditnote", ".pdf", stream, "application/pdf", false, false, true);
+                    var retStr = _goldMedia.GoldMediaUpload(FileName, "creditnotejune2023", ".pdf", stream, "application/pdf", false, false, true);
 
                     DataTable dt1 = _messageService.return_dt("exec updatescheme '" + dt.Rows[i]["partyid"].ToString() + "','" + dt.Rows[i]["typecat"].ToString() + "','" + FileName + ".pdf" + "'");
                 }
