@@ -39,7 +39,7 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
             //  DateTime time1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 0, 0);
             //  DateTime time2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
           //  if (DateTime.Now.Hour >= 7)
-               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 10 && DateTime.Now.Month >= 4 && DateTime.Now.Year >= 2022)
+               if (DateTime.Now.Hour >= 7 && DateTime.Now.Day >= 10 && DateTime.Now.Month >= 4 && DateTime.Now.Year >= 2024)
                 {
                 DataTable dt = da.GetspfireDetails("GetCustomerTDSTCSApplicabilityTask");
                 if (dt.Rows.Count == 0)
@@ -90,7 +90,7 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
         {
            // UniqueKey = dtshow.Rows[0]["UniqueKey"].ToString();
           //  email = dtshow.Rows[0]["email"].ToString();
-            string Link = "https://erp.goldmedalindia.in/TDSTCSapplicability.aspx?UniqueKey=" + CustomerType + UniqueKey + "&financialYear=2023-2024";
+            string Link = "https://erp.goldmedalindia.in/TDSTCSapplicability.aspx?UniqueKey=" + CustomerType + UniqueKey + "&financialYear=2024-2025";
             string Subject = "New TDS Provisions for "+ CustType;
             string MailBody = @"<table style='font-weight: 400;'>
 <tbody>
@@ -140,8 +140,8 @@ namespace Goldmedal.Emails.App_Code.BLL.Common.Message
 
         public void SendEmail(string to, string subject, string body)
         {
-            string from = "noreply.goldmedal@goldmedalindia.com"; // Replace with your email address
-            string password = "Goldmedal20229"; // Replace with your email password
+            string from = "noreply2@goldmedalindia.com"; // Replace with your email address
+            string password = "gol123##"; // Replace with your email password
             string smtpServer = "smtp.gmail.com"; // Replace with your SMTP server address
             int smtpPort = 587; // Replace with your SMTP server port number
 
